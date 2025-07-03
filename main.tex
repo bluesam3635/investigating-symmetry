@@ -1,0 +1,116 @@
+\documentclass[12pt,a4paper]{memoir}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{tikz,fouriernc}
+\usetikzlibrary{arrows.meta}
+\usepackage{amsmath}
+\usetikzlibrary{calc,patterns,patterns.meta,angles,quotes}
+\usepackage{graphicx}
+\usepackage{nameref}
+\usepackage{changepage}
+\usepackage{xltabular}
+\usepackage[most]{tcolorbox}
+\usepackage[table]{xcolor}
+\usepackage{booktabs}
+\usepackage{array,tabularx}
+\usepackage{gensymb}
+\usepackage[hyperindex,linktoc=page,breaklinks,colorlinks]{hyperref}
+\usepackage{appendix}
+\author{Sam Ford}
+
+\colorlet{example}{orange!90!black}
+\colorlet{def}{green!70!black} 
+\colorlet{inv}{blue}
+\colorlet{nb}{gray!50!black}
+\colorlet{thrm}{red}
+\colorlet{prf}{purple}
+\newcommand{\eg}[1]{\textcolor{\textbf{example}}{#1}}
+\newcommand{\df}[1]{\textcolor{def}{\textbf{#1}}}
+\newcommand{\thm}[1]{\textcolor{thrm}{\textbf{#1}}}
+\newcommand{\inv}[1]{\textcolor{inv}{\textbf{#1}}}
+\newcommand{\nb}[1]{\textcolor{nb}{\textbf{#1}}}
+\newcommand{\pf}[1]{\textcolor{prf}{\textbf{#1}}}
+
+\newcommand*{\mline}[1]{%
+\begingroup
+    \renewcommand*{\arraystretch}{1.1}%
+   \begin{tabular}[c]{@{}>{\raggedright\arraybackslash}p{2cm}@{}}#1\end{tabular}%
+  \endgroup
+}
+
+\usepackage{pgfplots}
+
+\newcounter{example}[chapter]
+\newcounter{definition}[chapter]
+\newcounter{investigation}[chapter]
+\newcounter{theorem}[chapter]
+\newtcolorbox{proof}{enhanced,colframe=prf,title=Proof,breakable,colback=white,colbacktitle=prf!50!,fonttitle=\color{black}}
+\newtcolorbox{note}{colframe=nb,title=Note,breakable,colback=white,colbacktitle=nb!50!white,fonttitle=\color{black}}
+\newtcolorbox[auto counter,number within=chapter]{investigation}[2][]{colframe=inv,title={Investigation~\thetcbcounter\hfill\mdseries Solution on page \pageref{sol:#2}},colback=white,colbacktitle=inv!50!white,fonttitle=\color{black},listing file={sol/inv\thetcbcounter.tex},label={inv:#2}}
+\newtcolorbox{invsol}[2][]{colframe=inv,breakable,enhanced,title={Solution to Investigation \ref{inv:#2} on page \pageref{inv:#2}},colback=white,colbacktitle=inv!50!white,fonttitle=\color{black},listing file={sol/inv\thetcbcounter.tex},phantomlabel={sol:#2}}
+\newtcolorbox[auto counter,number within=chapter]{definition}{colframe=def,title=Definition~\thetcbcounter,colback=white,colbacktitle=def!50!white,fonttitle=\color{black}}
+\newtcolorbox[auto counter,number within=chapter]{theorem}{colframe=thrm,title=Theorem~\thetcbcounter,colback=white,colbacktitle=thrm!50!white,fonttitle=\color{black}}
+\newtcolorbox[auto counter,number within=chapter]{theoremwname}[2][0]{colframe=thrm,title=Theorem~\thetcbcounter: {#2},colback=white,colbacktitle=thrm!50!white,fonttitle=\color{black}}
+\newtcolorbox[auto counter,number within=chapter]{example}{colframe=example,title=Example~\thetcbcounter,enhanced,breakable,colback=white,colbacktitle=example!50!white,fonttitle=\color{black}}
+\newtcolorbox[use counter from=theorem]{thmwprf}[2][]{colframe=thrm,title={Theorem~\thetcbcounter\hfill\mdseries Proof on page \pageref{prf:#2}},colback=white,colbacktitle=thrm!50!white,fonttitle=\color{black},listing file={sol/thm\thetcbcounter.tex},phantomlabel={thm:#2}}
+\newtcolorbox{thmpf}[2][0]{colframe=prf,title={Proof of Theorem \ref{thm:#2} on page \pageref{thm:#2}},colback=white,colbacktitle=prf!50!white,fonttitle=\color{black},listing file={sol/thm\thetcbcounter.tex},phantomlabel={prf:#2}}
+
+\newenvironment{repthm}[2] 
+{ 
+  \bgroup 
+  \addtocounter{#1}{-1} 
+  \expandafter\def\csname the#1\endcsname{\ref{#2}} 
+  \def\foo{\end{#1}} 
+  \begin{#1} 
+} 
+{ 
+  \foo 
+  \egroup 
+} 
+
+\title{Investigating Symmetry}
+\begin{document}
+    \tcbstartrecording
+    \pagecolor{blue!20!black}
+    \color{white}
+    \maketitle
+    \nopagecolor% Use this to restore the color pages to white
+    \color{black}
+%    \chapter{Foreword}
+%    \include{foreword.txt}
+%    \chapter{Introduction}
+%    \include{intro.txt}
+%    \chapter*{Background}
+%    \include{background.txt}
+    \chapter{Symmetry in Geometry}
+    \include{geomeg.tex}
+%    \chapter{Symmetry Beyond Geometry}
+%    \include{beyondgeom.txt}
+%    \chapter{Generalising The Above}
+%    \include{generalisation.txt}
+%    \chapter{Interlude: Proof, Definitions, and Reasoning}
+%    \include{pdr.txt}
+%    \chapter{Reasoning about Groups of Symmetries}
+%    \include{groups.txt}
+%    \chapter{Properties of Groups}
+%    \include{groupprop.txt}
+%    \chapter{Structure of Groups}
+%    \include{groupstruct.txt}
+%    \chapter{Relationships Between Groups}
+%    \include{grouprel.txt}
+%    \chapter{Bringing The Geometry Back}
+%    \include{ggt.txt}
+%    \chapter{One More Step Up: The Category of Groups}
+%    \include{catgp.txt}
+    \begin{appendices}
+    	\chapter{Solutions}
+    	\input{geomeg/sol}
+        \chapter{Proofs of Results Used Without Proof}\label{proofs}
+        \include{proofs.tex}
+%       \chapter{Standard Approaches to Group Theory}
+%       \include{standard.tex}
+%       \chapter{Places We've Cheated}
+%       \include{cheat.tex}
+%           TODO: proof of inv 1.1: infinite lines of symmetry => all lines of symmetry
+    \end{appendices}
+\end{document}
